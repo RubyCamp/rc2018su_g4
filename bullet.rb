@@ -1,8 +1,10 @@
+BULLET_SPEED = 10.0
+
 class Bullet < Sprite
-    def initialize(x, y, image, speed, radian)
+    def initialize(x, y, image, radian)
         @bound_count = 3
-        @velocity_x = Math.cos(radian) * speed
-        @velocity_y = Math.sin(radian) * speed
+        @velocity_x = Math.cos(radian) * BULLET_SPEED
+        @velocity_y = Math.sin(radian) * BULLET_SPEED
         super(x, y, image)
     end
         
