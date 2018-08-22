@@ -19,11 +19,11 @@ c4 = Controller4.new(300, 0, Image.new(20, 20, C_YELLOW))
 Window.width = 600
 Window.height = 600
 
-bullets = Array.new
+$bullets = Array.new
 
 def shot_bullet(controller)
     radian = controller.angle / 180 * Math::PI
-    bulltes << Bullet.new(controller.x, controller.y, Image.new(10, 10, C_GREEN), radian)
+    $bulltes << Bullet.new(controller.x, controller.y, Image.new(10, 10, C_GREEN), radian)
 end 
 
 Window.loop do
@@ -43,12 +43,12 @@ Window.loop do
   c4.draw
   shot_bullet(c4) if Input.mouse_down?(M_LBUTTON)
 
-  bulltes.each do |b|
+  $bulltes.each do |b|
     b.update
     b.draw
   end
 
-  bulltes.delete_if {|b| b.isBoundLimit }
+  $bulltes.delete_if {|b| b.isBoundLimit }
 end
 
 
