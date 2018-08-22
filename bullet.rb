@@ -23,6 +23,11 @@ class Bullet < Sprite
         return @bound_count < 0
     end
 
+<<<<<<< HEAD
     def hit(c)
+=======
+    def shot(c)
+        p "SSSS"
+>>>>>>> d62dadb7026de78c94816ba6c83f65fce7bd379d
     end
 end

@@ -1,5 +1,4 @@
 require 'dxruby'
-
 require_relative 'controller'
 require_relative 'controller1'
 require_relative 'controller2'
@@ -7,6 +6,7 @@ require_relative 'controller3'
 require_relative 'controller4'
 require_relative 'bullet'
 
+<<<<<<< HEAD
 
 c1 = Controller1.new(1, 300, Image.new(20, 20, C_RED))
 c2 = Controller2.new(580, 280, Image.new(20, 20, C_BLUE))
@@ -17,6 +17,19 @@ c1.angle = 0
 c2.angle = 180
 c3.angle = 90
 c4.angle = 270
+=======
+c1 = Controller1.new(30, 300, Image.new(20, 20, C_RED))
+c2 = Controller2.new(550, 280, Image.new(20, 20, C_BLUE))
+c3 = Controller3.new(280, 560, Image.new(20, 20, C_GREEN))
+c4 = Controller4.new(380, 30, Image.new(20, 20, C_YELLOW))
+
+c1.angle = 0
+c2.angle = 180
+c3.angle = 270
+c4.angle = 90
+
+controllers = [c1, c2, c3, c4]
+>>>>>>> d62dadb7026de78c94816ba6c83f65fce7bd379d
 
 Window.width = 600
 Window.height = 600
@@ -49,6 +62,8 @@ Window.loop do
     b.update
     b.draw
   end
+
+  Sprite.check($bullets, controllers)
 
   $bullets.delete_if {|b| b.is_bound_limit }
 end
