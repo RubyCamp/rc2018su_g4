@@ -1,6 +1,8 @@
-BULLET_SPEED = 10.0
+
 
 class Bullet < Sprite
+    BULLET_SPEED = 10.0
+
     def initialize(x, y, image, radian)
         @bound_count = 3
         @velocity_x = Math.cos(radian) * BULLET_SPEED
@@ -9,8 +11,8 @@ class Bullet < Sprite
     end
         
     def update
-        @velocity_x *= -1 if (0..Window.width).include?(self.x)
-        @velocity_y *= -1 if (0..Window.height).include?(self.y)
+        @velocity_x *= -1 if not (0..Window.width).include?(self.x)
+        @velocity_y *= -1 if not (0..Window.height).include?(self.y)
 
         @bound_count -= 1 if not (0..Window.width).include?(self.x) or not (0..Window.height).include?(self.y)
 
