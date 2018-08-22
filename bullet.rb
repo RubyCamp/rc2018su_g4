@@ -1,7 +1,8 @@
 class Bullet < Sprite
     BULLET_SPEED = 10.0
 
-    def initialize(x, y, image, radian)
+    def initialize(x, y, image, source_id, radian)
+	@source_id = source_id
         @bound_count = 3
         @velocity_x = Math.cos(radian) * BULLET_SPEED
         @velocity_y = Math.sin(radian) * BULLET_SPEED
@@ -20,5 +21,8 @@ class Bullet < Sprite
 
     def is_bound_limit
         return @bound_count < 0
+    end
+
+    def hit(c)
     end
 end

@@ -1,6 +1,6 @@
 class Controller2 < Controller
-
   def update
+      @id = 2
       self.y += 1 if Input.key_down?(keys[:right]) and self.y < 500
       self.y -= 1 if Input.key_down?(keys[:left]) and self.y > 100
 
