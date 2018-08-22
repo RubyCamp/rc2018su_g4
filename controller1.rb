@@ -16,6 +16,4 @@ class Controller1 < Controller
           turn_left: K_W
         }
     end
-
-
 end
