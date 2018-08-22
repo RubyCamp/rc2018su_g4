@@ -21,4 +21,8 @@ class Bullet < Sprite
     def is_bound_limit
         return @bound_count < 0
     end
+
+    def shot(c)
+        p "SSSS"
+    end
 end

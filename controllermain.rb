@@ -13,6 +13,8 @@ c2 = Controller2.new(580, 270, Image.new(20, 20, C_BLUE))
 c3 = Controller3.new(270, 580, Image.new(20, 20, C_GREEN))
 c4 = Controller4.new(300, 30, Image.new(20, 20, C_YELLOW))
 
+controllers = [c1, c2, c3, c4]
+
 Window.width = 600
 Window.height = 600
 
@@ -44,6 +46,8 @@ Window.loop do
     b.update
     b.draw
   end
+
+  Sprite.check($bullets, controllers)
 
   $bullets.delete_if {|b| b.is_bound_limit }
 end
