@@ -1,7 +1,5 @@
 require 'dxruby'
 
-C_WHITE = [0, 255, 255, 255]
-
 current_angle = 180
 board = Sprite.new(100, 100, Image.new(32, 64, C_WHITE))
 
