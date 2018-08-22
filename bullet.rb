@@ -1,5 +1,3 @@
-
-
 class Bullet < Sprite
     BULLET_SPEED = 10.0
 
