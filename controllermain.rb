@@ -8,10 +8,10 @@ require_relative 'controller4'
 require_relative 'bullet'
 
 
-c1 = Controller1.new(0, 300, Image.new(20, 20, C_RED))
-c2 = Controller2.new(580, 300, Image.new(20, 20, C_BLUE))
-c3 = Controller3.new(300, 580, Image.new(20, 20, C_GREEN))
-c4 = Controller4.new(300, 0, Image.new(20, 20, C_YELLOW))
+c1 = Controller1.new(30, 300, Image.new(20, 20, C_RED))
+c2 = Controller2.new(580, 270, Image.new(20, 20, C_BLUE))
+c3 = Controller3.new(270, 580, Image.new(20, 20, C_GREEN))
+c4 = Controller4.new(300, 30, Image.new(20, 20, C_YELLOW))
 
 Window.width = 600
 Window.height = 600

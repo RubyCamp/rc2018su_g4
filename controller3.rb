@@ -1,4 +1,4 @@
-class Controller3 < Sprite
+class Controller3 < Controller
 
 
   def update
