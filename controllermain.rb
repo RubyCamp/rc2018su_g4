@@ -42,6 +42,13 @@ Window.loop do
   c4.update
   c4.draw
   shot_bullet(c4) if Input.mouse_down?(M_LBUTTON)
+
+  bulltes.each do |b|
+    b.update
+    b.draw
+  end
+
+  bulltes.delete_if {|b| b.isBoundLimit }
 end
 
 
