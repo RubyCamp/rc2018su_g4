@@ -1,9 +1,9 @@
 require 'dxruby'
 
-Window.width = 1000
-Window.height = 600
+Window.width = 690
+Window.height = 690
 
-image =  Image.load("image/116.jpg")
+image =  Image.load("image/117.jpg")
 
 Window.loop do
   Window.draw(0,0, image)
