@@ -45,7 +45,7 @@ Window.loop do
     b.draw
   end
 
-  $bullets.delete_if {|b| b.isBoundLimit }
+  $bullets.delete_if {|b| b.is_bound_limit }
 end
 
 
