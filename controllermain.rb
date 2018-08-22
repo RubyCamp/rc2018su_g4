@@ -20,7 +20,7 @@ $bullets = Array.new
 
 def shot_bullet(controller)
     radian = controller.angle / 180 * Math::PI
-    $bulltes << Bullet.new(controller.x, controller.y, Image.new(10, 10, C_GREEN), radian)
+    $bullets << Bullet.new(controller.x, controller.y, Image.new(10, 10, C_GREEN), radian)
 end 
 
 Window.loop do
@@ -40,12 +40,12 @@ Window.loop do
   c4.draw
   shot_bullet(c4) if Input.mouse_down?(M_LBUTTON)
 
-  $bulltes.each do |b|
+  $bullets.each do |b|
     b.update
     b.draw
   end
 
-  $bulltes.delete_if {|b| b.isBoundLimit }
+  $bullets.delete_if {|b| b.isBoundLimit }
 end
 
 
