@@ -13,10 +13,10 @@ Window.height = 690
 
 start_screen
 
-c1 = Controller1.new(20, 335, Image.new(20, 20, C_RED), 1, 0)
-c2 = Controller2.new(650, 335, Image.new(20, 20, C_BLUE), 2, 180)
-c3 = Controller3.new(335, 650, Image.new(20, 20, C_GREEN), 3, 270)
-c4 = Controller4.new(300, 20, Image.new(20, 20, C_YELLOW), 4, 90)
+c1 = Controller1.new(20, 335, Image.load('image/player1.png'), 1, 0)
+c2 = Controller2.new(650, 335, Image.load('image/player2.png'), 2, 180)
+c3 = Controller3.new(335, 650, Image.load('image/player3.png'), 3, 270)
+c4 = Controller4.new(300, 20, Image.load('image/player4.png'), 4, 90)
 
 $bullets = Array.new
 controllers = [c1, c2, c3, c4]
