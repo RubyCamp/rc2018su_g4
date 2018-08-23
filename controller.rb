@@ -1,7 +1,7 @@
 class Controller < Sprite
     attr_reader :id, :death, :speed
 
-    def initialize(x, y, iage, id, angle)
+    def initialize(x, y, image, id, angle)
         self.angle = angle
         @id = id
         @death = false

@@ -9,6 +9,8 @@ require_relative 'bullet'
 Window.width = 690
 Window.height = 690
 
+c1_image = Image.new(20, 20, C_RED)
+
 c1 = Controller1.new(30, 300, Image.new(20, 20, C_RED), 1, 0)
 c2 = Controller2.new(580, 270, Image.new(20, 20, C_BLUE), 2, 180)
 c3 = Controller3.new(270, 580, Image.new(20, 20, C_GREEN), 3, 270)
