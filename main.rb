@@ -124,12 +124,15 @@ end
 def end_screen
   return false if $winner_id == 0
 
-  font = Font.new(40)
-  is_restart = false
+  font1 = Font.new(40)
+  font2 = Font.new(25)
+    is_restart = false
 
   Window.loop do
     Window.draw(0, 0, Image.load('./image/ending.png'))
-    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font, hash = {color:PLAYER_RGB[$winner_id]})
+    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font1, hash = {color:PLAYER_RGB[$winner_id]})
+    Window.draw_font(160, 450, "Press SPACE to RESTART", font2)
+    Window.draw_font(160, 500, "Press ESC to END THE GAME", font2)
     break if Input.key_push?(K_ESCAPE)
     if Input.key_push?(K_SPACE)
         is_restart = true
@@ -145,7 +148,7 @@ end
 while true
   break if not start_screen
   game_start
-  puts $winner_id
+  # puts $winner_id
   next if end_screen
   break
 end
