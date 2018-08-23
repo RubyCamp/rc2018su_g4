@@ -49,7 +49,7 @@ Window.loop do
   c4.update if not c4.death
   c4.draw
   shot_bullet(c4) if Input.mouse_push?(M_LBUTTON) and not c4.death
-  death_count += 1 if c4.death
+  death_flags[3] = true if c4.death
 
   $bullets.each do |b|
     b.update
