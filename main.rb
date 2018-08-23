@@ -13,18 +13,22 @@ Window.height = 690
 
 $winner_id = 0
 
+$music_changed = false
+
 $normal_music = Sound.new('bgm/battle_music_start.wav')
 $normal_music.loop_count = -1
 
 $one_one_music = Sound.new('bgm/battle_music_1on1.wav')
 $one_one_music.loop_count = -1
 
-$music_changed = false
+$finalists = [999, 999]
 
 PLAYER_COLOR=[nil,"赤","青","緑","オレンジ"]
 PLAYER_RGB = [nil, [255,132,132], [147,147,255], [191,255,127], [255,191,127] ]
 
 def game_start
+  $finalists = [999, 999]
+
   $normal_music.play
 
   $winner_id = 0
@@ -71,6 +75,22 @@ def game_start
     $bullets << Bullet.new(controller.x, controller.y, image, controller.id, radian)
   end 
 
+  def pickup_finalists(controllers)
+    index = 0
+    controllers.each do |c|
+      #finallists[index] = c.id if not c.death
+    end
+  end
+
+  def is_bullet_limit(controller)
+    shoted_bullet = $bullets.select {|bullet| controller.id == bullet.source_id }
+    if shoted_bullet.size > 5
+      return true
+    else
+      return false
+    end
+  end
+
   background = Image.load('image/window_bg.jpg')
 
   Window.loop do
@@ -78,22 +98,22 @@ def game_start
 
     c1.update if not c1.death
     c1.draw
-    shot_bullet(c1) if Input.key_push?(K_LSHIFT) and not c1.death
+    shot_bullet(c1) if Input.key_push?(K_LSHIFT) and not c1.death and not is_bullet_limit(c1)
     death_flags[0] = true if c1.death
 
     c2.update if not c2.death
     c2.draw
-    shot_bullet(c2) if Input.key_push?(K_P) and not c2.death
+    shot_bullet(c2) if Input.key_push?(K_P) and not c2.death and not is_bullet_limit(c2)
     death_flags[1] = true if c2.death
 
     c3.update if not c3.death
     c3.draw
-    shot_bullet(c3) if Input.key_push?(K_SPACE) and not c3.death
+    shot_bullet(c3) if Input.key_push?(K_SPACE) and not c3.death and not is_bullet_limit(c3)
     death_flags[2] = true if c3.death
     
     c4.update if not c4.death
     c4.draw
-    shot_bullet(c4) if Input.mouse_push?(M_LBUTTON) and not c4.death
+    shot_bullet(c4) if Input.mouse_push?(M_LBUTTON) and not c4.death and not is_bullet_limit(c4)
     death_flags[3] = true if c4.death
 
     $bullets.each do |b|
@@ -117,6 +137,7 @@ def game_start
         $normal_music.stop
         $one_one_music.play
 	$music_changed = true
+	pickup_finalists(death_flags)
     end
   end 
 end
@@ -124,15 +145,12 @@ end
 def end_screen
   return false if $winner_id == 0
 
-  font1 = Font.new(40)
-  font2 = Font.new(25)
-    is_restart = false
+  font = Font.new(40)
+  is_restart = false
 
   Window.loop do
     Window.draw(0, 0, Image.load('./image/ending.png'))
-    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font1, hash = {color:PLAYER_RGB[$winner_id]})
-    Window.draw_font(160, 450, "Press SPACE to RESTART", font2)
-    Window.draw_font(160, 500, "Press ESC to END THE GAME", font2)
+    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font, hash = {color:PLAYER_RGB[$winner_id]})
     break if Input.key_push?(K_ESCAPE)
     if Input.key_push?(K_SPACE)
         is_restart = true
@@ -148,7 +166,6 @@ end
 while true
   break if not start_screen
   game_start
-  # puts $winner_id
   next if end_screen
   break
 end

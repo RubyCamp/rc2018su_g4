@@ -1,5 +1,5 @@
 class Bullet < Sprite
-    BULLET_SPEED = 3.0
+    BULLET_SPEED = 6.0
 
     attr_reader :source_id, :bound_count
 
