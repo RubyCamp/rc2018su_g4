@@ -1,5 +1,5 @@
 def start_screen
-   image =  Image.load("image/117.jpg")
+   image =  Image.load("image/title.png")
 
    Window.loop do
      Window.draw(0,0, image)
