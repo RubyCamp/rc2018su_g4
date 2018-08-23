@@ -5,7 +5,7 @@ require_relative 'controller'
 require_relative 'controller1'
 require_relative 'controller2'
 require_relative 'controller3'
-#require_relative 'controller4'
+require_relative 'controller4'
 require_relative 'bullet'
 
 Window.width = 690
@@ -33,7 +33,7 @@ def game_start
   c1 = Controller1.new(20, 335, Image.load('image/player1.png'), 1, 0)
   c2 = Controller2.new(650, 335, Image.load('image/player2.png'), 2, 180)
   c3 = Controller3.new(335, 650, Image.load('image/player3.png'), 3, 270)
-  #c4 = Controller4.new(300, 20, Image.load('image/player4.png'), 4, 90)
+  c4 = Controller4.new(300, 20, Image.load('image/player4.png'), 4, 90)
 
   loop_count = 181
   count_font = Font.new(50)
@@ -46,16 +46,14 @@ def game_start
     c1.draw
     c2.draw
     c3.draw
-    #c4.draw
+    c4.draw
 
     break if loop_count < 6
   end 
 
   $bullets = Array.new
-  #controllers = [c1, c2, c3, c4]
-  controllers = [c1, c2, c3]
-  #death_flags = [false, false, false, false]
-  death_flags = [false, false, false]
+  controllers = [c1, c2, c3, c4]
+  death_flags = [false, false, false, false]
 
   def shot_bullet(controller)
     radian = controller.angle / 180.0 * Math::PI
@@ -66,8 +64,8 @@ def game_start
             image = Image.load('image/player2_bullet.png')
         when 3
             image = Image.load('image/player3_bullet.png')
-        #when 4
-            #image = Image.load('image/player4_bullet.png')
+        when 4
+            image = Image.load('image/player4_bullet.png')
         else
             image = Image.new(10, 10, C_GREEN)
       end
@@ -94,10 +92,10 @@ def game_start
     shot_bullet(c3) if Input.key_push?(K_SPACE) and not c3.death
     death_flags[2] = true if c3.death
     
-    #c4.update if not c4.death
-    #c4.draw
-    #shot_bullet(c4) if Input.mouse_push?(M_LBUTTON) and not c4.death
-    #death_flags[3] = true if c4.death
+    c4.update if not c4.death
+    c4.draw
+    shot_bullet(c4) if Input.mouse_push?(M_LBUTTON) and not c4.death
+    death_flags[3] = true if c4.death
 
     $bullets.each do |b|
       b.update
@@ -108,12 +106,11 @@ def game_start
 
     $bullets.delete_if {|b| b.is_bound_limit }
 
-    #if death_flags.count(true) >= 3
-    if death_flags.count(true) >= 2
+    if death_flags.count(true) >= 3
       $winner_id = 1 if not c1.death
       $winner_id = 2 if not c2.death
       $winner_id = 3 if not c3.death
-      #$winner_id = 4 if not c4.death
+      $winner_id = 4 if not c4.death
       break
     end    
 
@@ -121,7 +118,7 @@ def game_start
         $normal_music.set_volume(0)
         $one_one_music.set_volume(255)
     end
-  end #Window.loop
+  end 
 end
 
 def end_screen
