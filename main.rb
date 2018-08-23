@@ -33,7 +33,7 @@ def game_start
   c1 = Controller1.new(20, 335, Image.load('image/player1.png'), 1, 0)
   c2 = Controller2.new(650, 335, Image.load('image/player2.png'), 2, 180)
   c3 = Controller3.new(335, 650, Image.load('image/player3.png'), 3, 270)
-  c4 = Controller4.new(300, 20, Image.load('image/player4.png'), 4, 90)
+  c4 = Controller4.new(335, 20, Image.load('image/player4.png'), 4, 90)
 
   loop_count = 181
   count_font = Font.new(50)
@@ -124,12 +124,15 @@ end
 def end_screen
   return false if $winner_id == 0
 
-  font = Font.new(40)
-  is_restart = false
+  font1 = Font.new(40)
+  font2 = Font.new(25)
+    is_restart = false
 
   Window.loop do
     Window.draw(0, 0, Image.load('./image/ending.png'))
-    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font, hash = {color:PLAYER_RGB[$winner_id]})
+    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font1, hash = {color:PLAYER_RGB[$winner_id]})
+    Window.draw_font(160, 450, "Press SPACE to RESTART", font2)
+    Window.draw_font(160, 500, "Press ESC to END THE GAME", font2)
     break if Input.key_push?(K_ESCAPE)
     if Input.key_push?(K_SPACE)
         is_restart = true
@@ -145,7 +148,7 @@ end
 while true
   break if not start_screen
   game_start
-  puts $winner_id
+  # puts $winner_id
   next if end_screen
   break
 end
