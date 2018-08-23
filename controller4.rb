@@ -5,8 +5,8 @@ class Controller4 < Controller
 	end
 
 	def update
-		self.x += 1 if Input.mouse_pos_x > self.x and self.x < 500
-		self.x -= 1 if Input.mouse_pos_x < self.x and self.x > 100
+		self.x += @speed if Input.mouse_pos_x > self.x and self.x < 500
+		self.x -= @speed if Input.mouse_pos_x < self.x and self.x > 100
    
         self.angle += 3 if Input.mouse_wheel_pos > @former_pos and self.angle < 170
         self.angle -= 3 if Input.mouse_wheel_pos < @former_pos and self.angle > 10
