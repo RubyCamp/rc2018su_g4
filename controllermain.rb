@@ -1,5 +1,4 @@
 require 'dxruby'
-
 require_relative 'controller'
 require_relative 'controller1'
 require_relative 'controller2'
