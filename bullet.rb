@@ -26,6 +26,5 @@ class Bullet < Sprite
     end
 
     def shot(c)
-        p "SSSS"
     end
 end
