@@ -48,8 +48,3 @@ Window.loop do
 
   $bullets.delete_if {|b| b.is_bound_limit }
 end
-
-
-
-
-

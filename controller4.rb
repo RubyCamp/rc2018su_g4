@@ -1,5 +1,4 @@
 class Controller4 < Controller
-<<<<<<< HEAD
 	def initialize(x=0, y=0, image=nil, id, angle)
 		super(x, y, image, id, angle)
 		@former_pos = 0
