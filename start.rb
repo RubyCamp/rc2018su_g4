@@ -5,8 +5,8 @@ def start_screen
    Window.loop do
      Window.draw(0,0, image)
      if Input.key_push?(K_SPACE)
-         start_flag = true
-	 break
+        start_flag = true
+	    break
      end
    end
 
