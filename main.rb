@@ -100,4 +100,4 @@ end
 
 start_screen
 gamestart
-end_screen
+end_screen if $winner_id != 0
