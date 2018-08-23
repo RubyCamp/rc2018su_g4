@@ -1,5 +1,6 @@
 require 'dxruby'
 
+require_relative 'start'
 require_relative 'controller'
 require_relative 'controller1'
 require_relative 'controller2'
@@ -10,24 +11,33 @@ require_relative 'bullet'
 Window.width = 690
 Window.height = 690 
 
-Window.loop do
-  Window.draw(0, 0, Image.load('./image/117.jpg'))
-  break if Input.key_push?(K_SPACE)
-end  
+start_screen
 
-c1 = Controller1.new(30, 300, Image.new(20, 20, C_RED), 1, 0)
-c2 = Controller2.new(580, 270, Image.new(20, 20, C_BLUE), 2, 180)
-c3 = Controller3.new(270, 580, Image.new(20, 20, C_GREEN), 3, 270)
+c1 = Controller1.new(20, 335, Image.new(20, 20, C_RED), 1, 0)
+c2 = Controller2.new(650, 335, Image.new(20, 20, C_BLUE), 2, 180)
+c3 = Controller3.new(335, 650, Image.new(20, 20, C_GREEN), 3, 270)
 c4 = Controller4.new(300, 20, Image.new(20, 20, C_YELLOW), 4, 90)
 
 $bullets = Array.new
 controllers = [c1, c2, c3, c4]
-death_flags = [false, false, false]
+death_flags = [false, false, false, false]
 winner_id = 0
 
 def shot_bullet(controller)
     radian = controller.angle / 180.0 * Math::PI
-    $bullets << Bullet.new(controller.x, controller.y, Image.new(10, 10, C_GREEN), controller.id, radian)
+    case controller.id
+        when 1
+            image = Image.load('image/player1-bullet.png')
+        when 2
+            image = Image.load('image/player2-bullet.png')
+        when 3
+            image = Image.load('image/player3-bullet.png')
+        when 4
+            image = Image.load('image/player4-bullet.png')
+        else
+            image = Image.new(10, 10, C_GREEN)
+    end
+    $bullets << Bullet.new(controller.x, controller.y, image, controller.id, radian)
 end 
 
 Window.loop do
