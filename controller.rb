@@ -17,6 +17,6 @@ class Controller < Sprite
     end
 
     def change_image
-        self.image = Image.load('ohaka.png')
+        self.image = Image.load('image/ohaka.png')
     end
 end
