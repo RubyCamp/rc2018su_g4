@@ -16,9 +16,8 @@ $winner_id = 0
 PLAYER_COLOR=[nil,"赤","青","緑","オレンジ"]
 PLAYER_RGB = [nil, [255,132,132], [147,147,255], [191,255,127], [255,191,127] ]
 
-def gamestart
-  
-  start_screen
+def game_start
+  $winner_id = 0
 
   c1 = Controller1.new(20, 335, Image.load('image/player1.png'), 1, 0)
   c2 = Controller2.new(650, 335, Image.load('image/player2.png'), 2, 180)
@@ -28,7 +27,6 @@ def gamestart
   $bullets = Array.new
   controllers = [c1, c2, c3, c4]
   death_flags = [false, false, false, false]
-  winner_id = 0
 
   def shot_bullet(controller)
       radian = controller.angle / 180.0 * Math::PI
@@ -47,7 +45,11 @@ def gamestart
       $bullets << Bullet.new(controller.x, controller.y, image, controller.id, radian)
   end 
 
+  background = Image.load('image/window_bg.jpg')
+
   Window.loop do
+    Window.draw(0, 0, background)
+
     c1.update if not c1.death
     c1.draw
     shot_bullet(c1) if Input.key_push?(K_LSHIFT) and not c1.death
@@ -78,23 +80,35 @@ def gamestart
     $bullets.delete_if {|b| b.is_bound_limit }
 
     if death_flags.count(true) >= 3
-      winner_id = 1 if not c1.death
-      winner_id = 2 if not c2.death
-      winner_id = 3 if not c3.death
-      winner_id = 4 if not c4.death
+      $winner_id = 1 if not c1.death
+      $winner_id = 2 if not c2.death
+      $winner_id = 3 if not c3.death
+      $winner_id = 4 if not c4.death
       break
     end    
   end
-
-  font = Font.new(40)
-
-    Window.loop do
-      Window.draw(0, 0, Image.load('./image/ending.png'))
-      Window.draw_font(70, 150, "#{PLAYER_COLOR[winner_id]}が宇宙を征服した！", font, hash = {color:PLAYER_RGB[winner_id]})
-      break if Input.key_push?(K_ESCAPE)
-      gamestart if Input.key_push?(K_SPACE)
-    end
-
 end
 
-gamestart
+def end_screen
+  return false if $winner_id == 0
+
+  font = Font.new(40)
+  is_restart = false
+
+  Window.loop do
+    Window.draw(0, 0, Image.load('./image/ending.png'))
+    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font, hash = {color:PLAYER_RGB[$winner_id]})
+    break if Input.key_push?(K_ESCAPE)
+    is_restart = true if Input.key_push?(K_SPACE)
+  end
+
+  return is_restart
+end
+
+while true
+  break if not start_screen
+  game_start
+  puts $winner_id
+  next if end_screen
+  break
+end
