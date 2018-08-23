@@ -1,5 +1,5 @@
 
-image =  Image.load("image/117.jpg")
+image =  Image.load("image/ending.png")
 
 f = false
 

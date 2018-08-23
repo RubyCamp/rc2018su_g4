@@ -11,6 +11,11 @@ require_relative 'bullet'
 Window.width = 690
 Window.height = 690 
 
+$winner_id = 0
+
+PLAYER_COLOR=[nil,"赤","青","緑","オレンジ"]
+PLAYER_RGB = [nil, [255,132,132], [147,147,255], [191,255,127], [255,191,127] ]
+
 def gamestart
   
   start_screen
@@ -84,8 +89,8 @@ def gamestart
   font = Font.new(40)
 
     Window.loop do
-      Window.draw(0, 0, Image.load('./image/117.jpg'))
-      Window.draw_font(0, 0, "プレイヤー#{winner_id.to_s}が宇宙を征服した！", font)
+      Window.draw(0, 0, Image.load('./image/ending.png'))
+      Window.draw_font(70, 150, "#{PLAYER_COLOR[winner_id]}が宇宙を征服した！", font, hash = {color:PLAYER_RGB[winner_id]})
       break if Input.key_push?(K_ESCAPE)
       gamestart if Input.key_push?(K_SPACE)
     end

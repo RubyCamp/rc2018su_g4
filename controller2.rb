@@ -1,6 +1,6 @@
 class Controller2 < Controller
   def update
-      self.y += @speed if Input.key_down?(keys[:right]) and self.y < 500
+      self.y += @speed if Input.key_down?(keys[:right]) and self.y < 590
       self.y -= @speed if Input.key_down?(keys[:left]) and self.y > 100
 
       self.angle += 3 if Input.key_down?(keys[:turn_right]) and self.angle < 260
