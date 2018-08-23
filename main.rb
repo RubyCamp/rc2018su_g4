@@ -1,72 +1,117 @@
 require 'dxruby'
-require 'chipmunk'
-require_relative 'color'
 
-font = Font.new(32)
+require_relative 'start'
+require_relative 'controller'
+require_relative 'controller1'
+require_relative 'controller2'
+require_relative 'controller3'
+require_relative 'controller4'
+require_relative 'bullet'
 
-class Block < Sprite
-    def initialize(x, y, image)
-        @space = CP::Space.new
-        @space.gravity = CP::Vec2.new(x, y)
-        @body = CP::Body.new(CP::INFINITY, CP::INFINITY)
-        @shape = CP::Shape::Circle.new(@body, 10, CP::Vec2.new(0, 0))
+Window.width = 690
+Window.height = 690 
 
-        @space.add_body(@body)
-        @space.add_shape(@shape)
-        super(x, y, image)
+$winner_id = 0
+
+PLAYER_COLOR=[nil,"赤","青","緑","オレンジ"]
+PLAYER_RGB = [nil, [255,132,132], [147,147,255], [191,255,127], [255,191,127] ]
+
+def game_start
+  $winner_id = 0
+
+  c1 = Controller1.new(20, 335, Image.load('image/player1.png'), 1, 0)
+  c2 = Controller2.new(650, 335, Image.load('image/player2.png'), 2, 180)
+  c3 = Controller3.new(335, 650, Image.load('image/player3.png'), 3, 270)
+  c4 = Controller4.new(300, 20, Image.load('image/player4.png'), 4, 90)
+
+  $bullets = Array.new
+  controllers = [c1, c2, c3, c4]
+  death_flags = [false, false, false, false]
+
+  def shot_bullet(controller)
+    radian = controller.angle / 180.0 * Math::PI
+      case controller.id
+        when 1
+            image = Image.load('image/player1_bullet.png')
+        when 2
+            image = Image.load('image/player2_bullet.png')
+        when 3
+            image = Image.load('image/player3_bullet.png')
+        when 4
+            image = Image.load('image/player4_bullet.png')
+        else
+            image = Image.new(10, 10, C_GREEN)
+      end
+    $bullets << Bullet.new(controller.x, controller.y, image, controller.id, radian)
+  end 
+
+  background = Image.load('image/window_bg.jpg')
+
+  Window.loop do
+    Window.draw(0, 0, background)
+
+    c1.update if not c1.death
+    c1.draw
+    shot_bullet(c1) if Input.key_push?(K_LSHIFT) and not c1.death
+    death_flags[0] = true if c1.death
+
+    c2.update if not c2.death
+    c2.draw
+    shot_bullet(c2) if Input.key_push?(K_P) and not c2.death
+    death_flags[1] = true if c2.death
+
+    c3.update if not c3.death
+    c3.draw
+    shot_bullet(c3) if Input.key_push?(K_SPACE) and not c3.death
+    death_flags[2] = true if c3.death
+    
+    c4.update if not c4.death
+    c4.draw
+    shot_bullet(c4) if Input.mouse_push?(M_LBUTTON) and not c4.death
+    death_flags[3] = true if c4.death
+
+    $bullets.each do |b|
+      b.update
+      b.draw
     end
 
-    def update
-        @space.step(1.0 / 20.0)
-        self.y = @body.p.y
-    end
+    Sprite.check($bullets, controllers)
+
+    $bullets.delete_if {|b| b.is_bound_limit }
+
+    if death_flags.count(true) >= 3
+      $winner_id = 1 if not c1.death
+      $winner_id = 2 if not c2.death
+      $winner_id = 3 if not c3.death
+      $winner_id = 4 if not c4.death
+      break
+    end    
+  end
 end
 
-Window.loop do
-    Window.draw_font(0, 0, "Press Space to start.", font)
-    
-    break if Input.key_down?(K_SPACE)
+def end_screen
+  return false if $winner_id == 0
+
+  font = Font.new(40)
+  is_restart = false
+
+  Window.loop do
+    Window.draw(0, 0, Image.load('./image/ending.png'))
+    Window.draw_font(70, 150, "#{PLAYER_COLOR[$winner_id]}が宇宙を征服した！", font, hash = {color:PLAYER_RGB[$winner_id]})
+    break if Input.key_push?(K_ESCAPE)
+    if Input.key_push?(K_SPACE)
+        is_restart = true
+        break
+    end
+  end
+
+  return is_restart
 end
 
-/*
-    class Player < Sprite
-        def initialize(x, y, image)
-            @space = CP::Space.new
-            @space.gravity = CP::Vec2.new(x, y)
-            @body = CP::Body.new(CP::INFINITY, CP::INFINITY)
-            @shape = CP::Shape::Circle.new(@body, 10, CP::Vec2.new(0, 0))
-
-            @space.add_body(@body)
-            @space.add_shape(@shape)
-
-            super(x, y, image)
-        end
-
-        def update
-            @space.step(1.0 / 20.0)
-            self.y = @body.p.y
-        end
-    end
-*/
-
-p1 = Sprite.new(0, 0, Image.new(32, 32, C_WHITE))
-blocks = Array.new
-border_line = Sprite.new(0, Window.height, Image.new(Window.width, 1, C_GREEN))
-
-Window.loop do
-    p1.x = Input.mouse_pos_x
-    p1.y = Input.mouse_pos_y
-    
-    if Input.mouse_push?(M_LBUTTON)
-        blocks << Block.new(p1.x, p1.y, Image.new(32, 32, C_BLUE))
-    end
-
-    blocks.each do |b|
-        if not b === border_line and b.check(blocks).size < 2
-            b.update
-        end
-        b.draw
-    end
-
-    p1.draw   
-end 
+while true
+  break if not start_screen
+  game_start
+  puts $winner_id
+  next if end_screen
+  break
+end
