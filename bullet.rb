@@ -1,8 +1,11 @@
 class Bullet < Sprite
-    BULLET_SPEED = 10.0
+    BULLET_SPEED = 6.0
 
-    def initialize(x, y, image, radian)
-        @bound_count = 3
+    attr_reader :source_id, :bound_count
+
+    def initialize(x, y, image, source_id, radian)
+        @bound_count = 2
+        @source_id = source_id
         @velocity_x = Math.cos(radian) * BULLET_SPEED
         @velocity_y = Math.sin(radian) * BULLET_SPEED
         super(x, y, image)
