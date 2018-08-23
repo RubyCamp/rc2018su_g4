@@ -1,4 +1,8 @@
 def start_screen
+   music = Sound.new('bgm/title_music.wav')
+   music.loop_count = -1
+   music.play
+
    start_flag = false
    image =  Image.load("image/title.png")
 
@@ -9,6 +13,7 @@ def start_screen
 	    break
      end
    end
-
+   
+   music.stop
    return start_flag
 end
