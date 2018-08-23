@@ -57,7 +57,7 @@ def game_start
 
     c2.update if not c2.death
     c2.draw
-    shot_bullet(c2) if Input.key_push?(K_P) and not c2.death
+    shot_bullet(c2) if Input.key_push?(K_RETURN) and not c2.death
     death_flags[1] = true if c2.death
 
     c3.update if not c3.death
