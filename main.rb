@@ -13,16 +13,43 @@ Window.height = 690
 
 $winner_id = 0
 
+$normal_music = Sound.new('bgm/battle_music_start.wav')
+$normal_music.loop_count = -1
+$normal_music.set_volume(255)
+
+$one_one_music = Sound.new('bgm/battle_music_1on1.wav')
+$one_one_music.loop_count = -1
+$one_one_music.set_volume(0)
+
 PLAYER_COLOR=[nil,"赤","青","緑","オレンジ"]
 PLAYER_RGB = [nil, [255,132,132], [147,147,255], [191,255,127], [255,191,127] ]
 
 def game_start
+  $normal_music.play
+  $one_one_music.play
+
   $winner_id = 0
 
   c1 = Controller1.new(20, 335, Image.load('image/player1.png'), 1, 0)
   c2 = Controller2.new(650, 335, Image.load('image/player2.png'), 2, 180)
   c3 = Controller3.new(335, 650, Image.load('image/player3.png'), 3, 270)
   c4 = Controller4.new(300, 20, Image.load('image/player4.png'), 4, 90)
+
+  loop_count = 181
+  count_font = Font.new(50)
+    
+  Window.loop do
+    loop_count -= 1
+
+    Window.draw_font(335, 335, (loop_count / 60 + 1).to_s, count_font)
+
+    c1.draw
+    c2.draw
+    c3.draw
+    c4.draw
+
+    break if loop_count < 6
+  end 
 
   $bullets = Array.new
   controllers = [c1, c2, c3, c4]
@@ -86,7 +113,12 @@ def game_start
       $winner_id = 4 if not c4.death
       break
     end    
-  end
+
+    if death_flags.count(false) == 2
+        $normal_music.set_volume(0)
+        $one_one_music.set_volume(255)
+    end
+  end 
 end
 
 def end_screen
@@ -105,6 +137,8 @@ def end_screen
     end
   end
 
+  $normal_music.stop
+  $one_one_music.stop
   return is_restart
 end
 
