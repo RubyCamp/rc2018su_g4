@@ -25,11 +25,8 @@ $one_one_music = Sound.new('bgm/battle_music_1on1.wav')
 $one_one_music.loop_count = -1
 
 $bullets = Array.new
-$finalists = [999, 999]
-$death_flags = [false, false, false, false]
-
-$bullets = Array.new
 $controllers = Array.new
+$death_flags = [false, false, false, false]
 
 $font32 = Font.new(32)
 
@@ -132,6 +129,7 @@ def game_start
   $controllers << Controller4.new(335, 20, Image.load('image/player4.png'), 4, 90)
 
   loop_count = 180
+
   count_font = Font.new(50)
     
   Window.loop do
@@ -145,8 +143,43 @@ def game_start
 
     break if loop_count < 6
   end 
+
+  def shot_bullet(controller)
+    radian = controller.angle / 180.0 * Math::PI
+      case controller.id
+        when 1
+            image = Image.load('image/player1_bullet.png')
+        when 2
+            image = Image.load('image/player2_bullet.png')
+        when 3
+            image = Image.load('image/player3_bullet.png')
+        when 4
+            image = Image.load('image/player4_bullet.png')
+        else
+            image = Image.new(10, 10, C_GREEN)
+      end
+    $bullets << Bullet.new(controller.x, controller.y, image, controller.id, radian)
+  end 
   
   font = Font.new(32)
+  background = Image.load('image/window_bg.jpg')
+
+  def pickup_finalists(controllers)
+    index = 0
+    controllers.each do |c|
+      #finallists[index] = c.id if not c.death
+    end
+  end
+
+  def is_bullet_limit(controller)
+    shoted_bullet = $bullets.select {|bullet| controller.id == bullet.source_id }
+    if shoted_bullet.size > 5
+      return true
+    else
+      return false
+    end
+  end
+
   background = Image.load('image/window_bg.jpg')
 
   Window.loop do
@@ -174,10 +207,11 @@ def game_start
     if $death_flags.count(true) == 2 and not $music_changed
       $normal_music.stop
       $one_one_music.play
-	    $music_changed = true
-	    pickup_finalists($death_flags)
+	  $music_changed = true
+	  pickup_finalists($death_flags)
     end
   end 
+
   $controllers.clear
   $bullets.clear
 end
@@ -187,6 +221,7 @@ def end_screen
 
   font1 = Font.new(40)
   font2 = Font.new(25)
+
   is_restart = false
 
   Window.loop do

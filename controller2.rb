@@ -8,7 +8,7 @@ class Controller2 < Controller
   end
 
   def keys
-    { right: K_RBRACKET, left: K_LBRACKET, turn_right: K_AT, turn_left: K_COLON }
+    { right: K_DOWN, left: K_UP, turn_right: K_RIGHT, turn_left: K_LEFT }
   end
 
 end
